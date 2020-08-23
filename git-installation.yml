@@ -3,4 +3,4 @@
   hosts: 172.19.44.125
   tasks:
   - name: Install Git
-    apt: pkg=Git state=present
+    apt: pkg=git state=present
