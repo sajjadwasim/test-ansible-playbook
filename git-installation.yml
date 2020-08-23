@@ -1,6 +1,7 @@
 ---
 - name: playbook to install Git
   hosts: 172.19.44.125
+  sudo: yes
   tasks:
   - name: Install Git
     apt: pkg=git state=present
