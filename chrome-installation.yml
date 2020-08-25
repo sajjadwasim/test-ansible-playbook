@@ -1,9 +1,0 @@
----
-- name: playbook to install chrome
-  hosts: 172.19.44.125
-  sudo: yes
-  vars:
-     download_url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  tasks:
-      - name: install chrome
-        apt: pkg=google-chrome-stable state=installed
