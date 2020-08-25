@@ -1,0 +1,10 @@
+---
+- name: playbook to install chrome
+  hosts: all
+  become: true
+  vars:
+     download_url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  tasks:
+      - name: install chrome
+        apt: pkg=google-chrome-stable state=present
+
