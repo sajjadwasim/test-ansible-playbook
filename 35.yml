@@ -1,0 +1,16 @@
+---
+## playbook to install a package
+ - hosts: all
+   become: yes
+   become_user: root
+   gather_facts: no
+   Vars:
+       driver_url: http://us.download.nvidia.com/XFree86/Linux-x86_64/440.31/NVIDIA-Linux-x86_64-440.31.run
+   tasks:
+     - name: "install nvidia_driver"
+       tags:
+         - packages
+       apt:
+         state: present
+         pkg:
+           - nvidia-driver-440.31

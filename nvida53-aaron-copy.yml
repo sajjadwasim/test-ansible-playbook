@@ -1,0 +1,57 @@
+---
+##playbook to install nvidia_driver without any roles
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: no
+  vars:
+    - nvidia_driver_weburl: http://us.download.nvidia.com/XFree86/Linux-x86_64/440.31/NVIDIA-Linux-x86_64-440.31.run
+  tasks:
+    - name: "install_nvidia: Ensure the prereqs are installed first"
+      tags:
+         - packages
+         - nvidia_driver
+      apt:
+         state: present
+         update_cache: yes
+         cache_valid_time: 86400
+         pkg:
+           - dkms
+           - binutils
+           - make
+           - gcc
+           - libglvnd-dev
+
+    - name: "install_nvidia: Set the Nvidia package version"
+      tags:
+         - packages
+         - nvidia_driver
+      set_fact:
+         nvidia_driver_package: "NVIDIA-Linux-x86_64-{{ nvidia_driver_version }}.run"
+
+    - name: "install_nvidia: ensure path exists for download"
+      tags:
+         - packages
+         - nvidia_driver
+      file:
+         path: "{{ nvidia_driver_weburl }}"
+         state: directory
+         mode: '0755'
+
+    - name: "download the local nvidia package file"
+      tags:
+         - packages
+         - nvidia_driver
+      changed_when: false
+      get_url:
+         url: "{{ nvidia_driver_weburl}"
+         dest: "{{ nvidia_driver_weburl}}"
+         mode: '0770'
+
+
+    - name: "install_nvidia: Install the nvidia run file"
+      tags:
+         - packages
+         - nvidia_driver
+      when: nvidia_package_file.stat.exists
+      shell: "{{nvidia_driver_weburl} --silent --dkms --disable-nouveau --no-cc-version-check"

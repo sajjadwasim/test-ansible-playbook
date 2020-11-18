@@ -1,0 +1,13 @@
+---
+##playbook to install packages
+
+- hosts: install
+  become: yes
+  become_user: root
+  gather_facts: no
+          apt:
+          name: "{{packages}}"
+          state: present
+          vars:
+                packages:
+                   - nvidia-driver-390
