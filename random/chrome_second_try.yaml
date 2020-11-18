@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become_user: ture
+  tasks:
+    - name: to download
+      apt:
+        deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        state: present
+      register: apt_output
+      when: ansible_os_family == 'Debian'

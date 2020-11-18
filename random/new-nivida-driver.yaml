@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become_user: root
+  vars:
+  driver_url: http://packages.svail.baidu.com/files/ubuntu-packages/NVIDIA-Linux-x86_64-450.36.06.run
+  tasks:
+    - name: install nvidia driver
+  - get_url: dest=. url={{driver_url}}
+  - mode: 755
+  - shell: ./NVIDIA-Linux-x86_64-440.82.run --disable-nouveau --dkms --ui=none --no-questions
+  - modprobe: name=nvidia state=absent
+    ignore_errors: True

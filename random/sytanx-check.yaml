@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: diplay uptime
+      command: uptime
+      register: uptime
+
+    - debug: var=uptime
+      local_location: shell echo {{ uptime }} >> /root/playbook2/output.txt

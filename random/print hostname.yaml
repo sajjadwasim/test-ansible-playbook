@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+  - name: "alivetest: set a new var with ansible hostname prior to override"
+    tags:
+      - ping_test
+      - alive_only
+    shell: ping -c 1 -w 2 {{ ansible_host }}
+    delegate_to: localhost
+    ignore_errors: true
+
+   - name: "hostname"
+     shell: echo $HOSTNAME
+     

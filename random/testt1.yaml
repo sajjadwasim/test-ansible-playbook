@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+      - name: diplay uptime
+        command: uptime
+        register: uptime
+        debug: var=uptime
+
+      - name: display the text to notepad
+        shell: echo "{{ var }} > /root/playbook2/output.txt"

@@ -1,0 +1,23 @@
+---
+- name: playbook to install chrome
+  hosts: all
+  become: true
+  vars:
+     download_url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  tasks:
+      - name: install chrome
+        apt: pkg=google-chrome-stable state=installed
+
+
+
+- name: install the nginx rpm from a remote repo
+  dnf:
+    name: 'http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm'
+    state: present
+
+
+
+    - apt_repository:
+    repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+    filename: google-chrome

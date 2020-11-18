@@ -1,0 +1,38 @@
+boot_interface: enp13s0f0
+comment: ''
+freeipaclient_domain: svail.baidu.com
+freeipaclient_servers:
+  - admin-2.svail.baidu.com
+  - admin-1.svail.baidu.com
+  - admin-0.svail.baidu.com
+gateway: 10.0.0.2
+host_role: Compute Node
+hostname: asimov-104
+interfaces:
+  - enp13s0f0
+  - ib0
+  - ipmi
+io-node: io-4-ib
+linux_hwe_enabled: true
+linux_hwe_package: linux-generic-hwe-18.04
+linux_kernel_version: 5.4.0-40-generic
+name: asimov-104
+name_servers: []
+name_servers_search: []
+node_mount_location: compute_node_v4
+nvidia_driver_version: 450.36.06
+os_release: bionic
+pam_login:
+  groups:
+    - svail
+    - root
+    - admins
+    - ubuntu
+  users:
+    - root
+    - ubuntu
+    - nagios
+power_address: asimov-104-mgmt.svail.baidu.com
+power_type: ipmilan
+slurm_gresconf: 8
+status: production

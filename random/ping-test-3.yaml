@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+    - name: "Ping the host from ansible server"
+      failed_when: false
+      changed_when: false
+      delegate_to: localhost
+      register: ping
+      command: "ping -c3 172.19.44.124"
+
+    - name: "set the facts"
+      when: ping_status.rc == 0
+      set_fact:
+        status: "alive"
+
+    - local_action: copy content= "{{ ping.stdout }}" /root/playbook2/output.txt

@@ -1,0 +1,11 @@
+---
+##playbook to install nvidia_driver without any roles
+- hosts: all
+  become: yes
+  apt:
+    autoremove: yes
+    cache_valid_time: 300
+    state: present
+    update_cache: yes
+    pkg:
+      - nvidia-driver-435                     

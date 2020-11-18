@@ -1,0 +1,11 @@
+
+---
+- hosts: all
+  become: true
+  tasks:
+     - name: diplay uptime
+       command: uptime
+       register: uptime
+
+     - debug: var=uptime
+       local_location: shell echo {{ uptime }} >> /home/gitlab/Desktop/test.txt

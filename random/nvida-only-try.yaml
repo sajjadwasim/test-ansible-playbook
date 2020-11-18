@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  vars:
+    driver_url: http://packages.svail.baidu.com/files/ubuntu-packages/NVIDIA-Linux-x86_64-450.36.06.run
+  tasks:
+    - name: install nvidia driver
+    - mode: 755
+    - shell: ./NVIDIA-Linux-x86_64-440.82.run --disable-nouveau --dkms --ui=none --no-questions

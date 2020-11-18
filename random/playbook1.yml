@@ -1,0 +1,19 @@
+---
+- host: all
+  task:
+ - name: install apache
+ apt:
+name: apache2
+ state: latest
+become: yes
+-name: index.html
+ copy:
+      content: “this is ansible playbook for installing apache2”
+       dest: /var/www/html/index.html
+ become: yes
+– name: restart apache2
+  service:
+          name: apache2
+          state: restarted
+           enabled: yes
+become: yes

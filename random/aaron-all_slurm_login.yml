@@ -1,0 +1,47 @@
+---
+- hosts: slurm_login
+  remote_user: root
+  gather_facts: no
+  tasks:
+    - name: "alivetest: check if the host is alive"
+      tags:
+        - ping_test
+        - alive_only
+      include_tasks: "task_alive_check.yml"
+
+- hosts: slurm_login
+  remote_user: root
+  gather_facts: no
+  roles:
+    - role: ubuntu_server
+      when: status is defined and status == 'production'
+    - role: ofed_driver
+      when:
+        - extra_ofed is defined and extra_ofed
+        - status is defined and status == 'production'
+
+- hosts: slurm_login
+  remote_user: root
+    - role: ipa_clients
+      when: status is defined and status == 'production'
+    - role: nfs_clients
+      when: status is defined and status == 'production'
+
+- hosts: slurm_login
+  remote_user: root
+  gather_facts: no
+  tasks:
+    - name: Install interactive and debug tools for users
+      tags:
+        - packages
+        - tools
+      when: status is defined and status == 'production'
+      apt:
+        pkg:
+          - emacs
+          - tmux
+          - gnuplot-x11
+          - python3-tk
+          - eog
+          - csh
+        state: present

@@ -1,0 +1,10 @@
+---
+- hosts: all
+  remote_user: root
+  gather_facts: no
+  tasks:
+    - name: "alivetest: check if the host is alive"
+      tags:
+        - ping_test
+        - alive_only
+      include_tasks: "task_alive_check.yml"

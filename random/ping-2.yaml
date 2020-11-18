@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+  - name: "alivetest: set a new var with ansible hostname prior to override"
+    tags:
+      - ping_test
+      - alive_only
+    set_fact:
+      ping_host: "{{ ansible_host }}"
+
+  - name: "alivetest: get node state from ping only"
+    tags:
+      - ping_test
+      - alive_only
+    failed_when: false
+    changed_when: false
+    register: ping_status
+    delegate_to: localhost
+    command: "ping -c3 -W1 -i1 {{ ping_host }}"
+
+  - name: "alivetest: set node state alive"
+    tags:
+      - ping_test
+      - alive_only
+    changed_when: false
+    when: ping_status.rc == 0
+    set_fact:
+      status: "production"
+
+  - name: "alivetest: set node state dead"
+    tags:
+      - ping_test
+      - alive_only
+    changed_when: false
+    when: ping_status.rc != 0
+    set_fact:
+      status: "testing"

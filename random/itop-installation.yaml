@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: ensure a list of packages installed
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - iotop
+      - apache2

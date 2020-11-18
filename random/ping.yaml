@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+  - name: to check host are alive
+    tags:
+      - ping
+    failed_when: false
+    changed_when: false
+    register: ping_status
+    command: "ping -c3 -W1 -i1 "
+
+  - name: print host
+    command: hostname
