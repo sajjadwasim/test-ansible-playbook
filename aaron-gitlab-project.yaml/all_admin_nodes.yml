@@ -1,0 +1,30 @@
+---
+- hosts: admin_nodes
+  remote_user: root
+  gather_facts: no
+  tasks:
+    - name: "alivetest: check if the host is alive"
+      tags:
+        - ping_test
+        - alive_only
+      include_tasks: "task_alive_check.yml"
+
+- hosts: admin_nodes
+  remote_user: root
+  gather_facts: no
+  roles:
+    - role: ubuntu_server
+      when: status is defined and status == 'production'
+    - role: ofed_driver
+      when:
+        - status is defined and status == 'production'
+        - extra_ofed is defined and extra_ofed
+
+- hosts: admin_nodes
+  remote_user: root
+  gather_facts: yes
+  roles:
+    - role: ipa_clients
+      when:
+        - status is defined and status == 'production'
+        - extra_ipa is defined and extra_ipa
