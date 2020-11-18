@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Insert multiple lines and Backup
+      blockinfile:
+        path: /etc/ssh/sshd_config
+        backup: yes
+        block: |
+          ClientAliveInterval 60
+          ClientAliveCountMax 240

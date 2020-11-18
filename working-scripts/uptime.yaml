@@ -1,0 +1,12 @@
+---
+- hosts: all
+  remote_user: ansible
+  become: true
+
+  tasks:
+
+    - name: test
+      shell: uptime
+      register: uptime
+
+    - local_action: copy content={{ uptime.stdout }} dest=/opt/test

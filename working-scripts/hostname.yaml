@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+  - name: date and time
+    vars:
+       msg: |
+        Date: {{ ansible_date_time.date }}
+        Timezone: {{ ansible_date_time.tz }}
+      debug:
+      msg: "{{ msg.split('\n') }}"

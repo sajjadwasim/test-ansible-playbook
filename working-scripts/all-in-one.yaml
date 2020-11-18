@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+  - name: set timezone to Los_Angeles
+    timezone:
+      name: America/Los_Angeles
+
+  - name: Insert multiple lines and Backup
+    blockinfile:
+      path: /etc/ssh/sshd_config
+      backup: yes
+      block: |
+        ClientAliveInterval 60
+        ClientAliveCountMax 240
+
+  - name: to remove unwanted stuff
+    apt:
+      state: absent
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - cloud-init ufw lxcfs lxd
+      - cloud-init ufw lxd
+      - snapd
+      - autoremove
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes

@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become_user: root
+  tasks:
+  - name: to remove
+    apt:
+      state: absent
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - cloud-init ufw lxcfs lxd
+      - cloud-init ufw lxd
+      - snapd
+      - autoremove
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
