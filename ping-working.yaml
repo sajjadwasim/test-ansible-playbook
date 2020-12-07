@@ -1,0 +1,34 @@
+---
+- hosts: all
+  remote_user: root
+  gather_facts: false
+  become: true
+
+  tasks:
+
+    - name: "Ping the host from ansible server"
+      delegate_to: localhost
+      register: ping
+      command: "ping -c3 inventory_hostname"
+      ignore_errors: true
+
+    - name: "IP address"
+      register: ipaddres
+      shell: "hostname -I | awk '{print $1}'"
+      ignore_unreachable: true
+
+    - name: "hostname"
+      register: hostname
+      command: "hostname"
+      ignore_unreachable: true
+
+    - name: "uptime"
+      register: uptime
+      shell: "uptime | awk '{ print $3 $4 }'"
+      ignore_unreachable: true
+
+    - local_action: lineinfile line="Hostname{{ ':' }} {{ hostname.stdout }}\nIP{{ ':' }} {{ ipaddres.stdout }}\nUptime{{ ':' }} {{ uptime.stdout }}\n*********************\n" insertafter=EOF dest=/tmp/test.txt
+      when: ipaddres.unreachable is not defined
+
+    - local_action: lineinfile line="Hostname{{ ':' }} {{ inventory_hostname }} is dead\n*********************\n" insertafter=EOF dest=/tmp/test.txt
+      when: ipaddres.unreachable is defined and ipaddres.unreachable== true
